@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 import { GraphQLError } from 'graphql';
-
+import { Request } from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 
-export const authenticateToken = ({ req }: any) => {
+export const authenticateToken = ({ req }: { req: Request }) => {
   let token = req.body.token || req.query.token || req.headers.authorization;
 
   if (req.headers.authorization) {
