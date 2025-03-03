@@ -28,8 +28,8 @@ const server = new ApolloServer({
 
   app.use('/graphql', expressMiddleware(server,
      {
-      context: async ({ req }) => await authenticateToken({ req })
-    }));
+       context: authenticateToken
+      }));
 
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
