@@ -10,7 +10,6 @@ import {
 } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
 import { SAVE_BOOK } from '../utils/mutations';
-
 import Auth from '../utils/auth';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 import type { Book } from '../models/Book';
@@ -65,14 +64,13 @@ const SearchBooks = () => {
     }
   };
 
-  // create function to handle saving a book to our database
+  // create a function to handle saving a book to the database
   const handleSaveBook = async (bookId: string) => {
-    // find the book in `searchedBooks` state by the matching id
+    // find the book in searchedBooks state by the id
     const bookToSave: Book = searchedBooks.find((book) => book.bookId === bookId)!;
-    // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-    console.log("Full token:", token);
+    console.log("Token:", token);
 
     if (!token) {
       return false;
@@ -82,7 +80,7 @@ const SearchBooks = () => {
       await saveBook({
         variables: {input: { ...bookToSave }}});
 
-      // if book successfully saves to user's account, save book id to state
+
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
       console.error(err);

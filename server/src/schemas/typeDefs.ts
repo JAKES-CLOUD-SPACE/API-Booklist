@@ -41,7 +41,7 @@ export const typeDefs = `#graphql
     }
 
     type Mutation {
-        createUser(input: UserInput!): Auth
+        addUser(input: UserInput!): Auth
         login(username: String, email: String, password: String!): Auth
         saveBook(input: BookInput!): User
         deleteBook(bookId: String!): User
