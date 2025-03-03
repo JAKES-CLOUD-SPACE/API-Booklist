@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-import { useMutation } from '@apollo/client';
-import { ADD_USER } from '../utils/mutations.ts';
+
 import Auth from '../utils/auth';
 import type { User } from '../models/User';
+
+import { useMutation } from '@apollo/client';
+import { ADD_USER } from '../utils/mutations.ts';
 
 // biome-ignore lint/correctness/noEmptyPattern: <explanation>
 const SignupForm = ({}: { handleModalClose: () => void }) => {
@@ -14,6 +16,7 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
   const [validated] = useState(false);
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
+
   const [createUser] = useMutation(ADD_USER);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +41,9 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
             username: userFormData.username, 
             email: userFormData.email, 
             password: userFormData.password 
-          }}});
+          }
+        }
+      });
 
       Auth.login(data.createUser.token);
     } catch (err) {

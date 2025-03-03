@@ -1,57 +1,49 @@
+export const typeDefs = `#graphql
+    type User {
+        _id: ID!
+        username: String!
+        email: String!
+        bookCount: Int
+        savedBooks: [Book]
+    }
 
-export const typeDefs = `
-  # User type with required fields
-  type User {
-    _id: ID!
-    username: String!
-    email: String!
-    bookCount: Int!
-    savedBooks: [Book]
-  }
+    type Book {
+        authors: [String]
+        description: String!
+        bookId: String!
+        image: String
+        link: String
+        title: String!
+    }
 
-  # Book type, representing the structure of a saved book
-  type Book {
-    bookId: String!
-    authors: [String!]!
-    description: String
-    title: String!
-    image: String
-    link: String
-  }
+    type Auth {
+        token: ID!
+        user: User
+    }
 
-  # Auth type for returning token and user data
-  type Auth {
-    token: String!
-    user: User!
-  }
+    input UserInput {
+        username: String!
+        email: String!
+        password: String!
+    }
 
-  # Input type to handle parameters for saving a book
-  input BookInput {
-    bookId: String!
-    authors: [String!]!
-    description: String
-    title: String!
-    image: String
-    link: String
-  }
-    
-  # Input type to handle parameters for user login
-  input UserInput {
-    username: String!
-    email: String!
-    password: String!
-  }
+    input BookInput {
+        authors: [String]
+        description: String!
+        bookId: String!
+        image: String
+        link: String
+        title: String!
+    }
 
-  # Query type
-  type Query {
-    me: User
-  }
+    type Query {
+        me: User
+    }
 
-  # Mutation type
-  type Mutation {
-    login(email: String!, password: String!): Auth
-    addUser(username: String!, email: String!, password: String!): Auth
-    saveBook(bookData: BookInput!): User
-    deleteBook(bookId: String!): User
-  }
+    type Mutation {
+        createUser(input: UserInput!): Auth
+        login(username: String, email: String, password: String!): Auth
+        saveBook(input: BookInput!): User
+        deleteBook(bookId: String!): User
+    }
 `;

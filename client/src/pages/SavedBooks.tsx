@@ -1,16 +1,17 @@
 import { Container, Card, Button, Row, Col } from 'react-bootstrap';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_ME } from '../utils/queries'; // Import the GET_ME query
 import { REMOVE_BOOK } from '../utils/mutations'; // Import the REMOVE_BOOK mutation
+
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
-
 const SavedBooks = () => {
+  // Use the `useQuery` hook to get user data
   const { loading, data } = useQuery(GET_ME); // Automatically fetches user data on load
   const userData = data?.me || {}; // Assuming the query returns an object with a `me` key
   const [removeBook] = useMutation(REMOVE_BOOK); // Use the REMOVE_BOOK mutation
 
-  // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId: string) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
     
@@ -26,7 +27,6 @@ const SavedBooks = () => {
     }
   };
 
-  // if data isn't here yet, say so
   if (loading) {
     return <h2>LOADING...</h2>;
   }
@@ -35,7 +35,7 @@ const SavedBooks = () => {
     <>
       <div className='text-light bg-dark p-5'>
         <Container>
-          {userData.username ? (
+          {userData?.username ? (
             <h1>Viewing {userData.username}'s saved books!</h1>
           ) : (
             <h1>Viewing saved books!</h1>
@@ -51,10 +51,10 @@ const SavedBooks = () => {
             : 'You have no saved books!'}
         </h2>
         <Row>
-          {userData.savedBooks.map((book) => {
+          {userData.savedBooks.map((book: { bookId: string; image?: string; title: string; authors: string[]; description: string }) => {
             return (
-              <Col md='4'>
-                <Card key={book.bookId} border='dark'>
+              <Col md='4' key={book.bookId}>
+                <Card border='dark'>
                   {book.image ? (
                     <Card.Img
                       src={book.image}
@@ -84,3 +84,4 @@ const SavedBooks = () => {
 };
 
 export default SavedBooks;
+
