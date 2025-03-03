@@ -42,8 +42,8 @@ mutation DeleteBook($bookId: String!) {
 
 // Mutation for user signup
 export const ADD_USER = gql`
-mutation CreateUser($input: UserInput!) {
-    createUser(input: $input) {
+mutation AddUser($input: UserInput!) {
+    addUser(input: $input) {
         user {
             _id
             username
